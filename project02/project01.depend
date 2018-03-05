@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1518396225 source:/home/jzy/code_OpenCV/project01/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1518733949 source:/home/jzy/code_OpenCV/project02/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
