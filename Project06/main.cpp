@@ -620,8 +620,8 @@ int main(int argc, char *argv[]){
     vector<Planes> planes;
     vector<lightSource> lighters;
 
-    spheres.push_back(Quadrics(1,1,1,0,-1,5,5,5,Vec3d(0,0,5),sphereTexture,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(6,8,11),Vec3d(0,-12,5),12,12,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE));
-    spheres.push_back(Quadrics(1,1,1,0,-1,3,3,3,Vec3d(0,12,4),sphereTexture2,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(4,18,8),Vec3d(0,4,4),8,8,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE));
+    spheres.push_back(Quadrics(1,1,1,0,-1,5,5,5,Vec3d(0,0,5),sphereTexture,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(3,-6,8),Vec3d(0,-12,5),6,6,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE_PER));
+    spheres.push_back(Quadrics(1,1,1,0,-1,3,3,3,Vec3d(0,12,4),sphereTexture2,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(2,8,6),Vec3d(0,4,4),4,4,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE_PER));
     planes.push_back(Planes(Vec3d(0,0,1),Vec3d(0,0,0),Vec3d(0,1,0),texturePlane,normalTexture,10,10,Vec4f(10,10,10,255)));
 //    planes.push_back(Planes(Vec3d(-1,0,0),Vec3d(12,0,0),Vec4f(50,100,50,255),Vec4f(170,220,170,255),Vec4f(160,210,160,255),Vec4f(10,10,10,255)));
 //    planes.push_back(Planes(Vec3d(0,1,0),Vec3d(0,-9,0),Vec4f(50,50,100,255),Vec4f(170,170,220,255),Vec4f(1800,1800,2300,2550),Vec4f(10,10,10,255)));
