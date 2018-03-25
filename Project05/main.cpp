@@ -3,21 +3,33 @@
 #include <cmath>
 #include <opencv2/opencv.hpp>
 
+#define PI 3.1415927
+
 using namespace std;
 using namespace cv;
 
 
 ///Define Objects
 class Quadrics{
+private:
+    Vec4f ColorH0, ColorH1, ColorH2;
+    enum SphereType{
+        TEXTURE,
+        HOMO
+    };
+    SphereType sphereType;
+    Mat textureMap;
 public:
     int a02,a12,a22,a21,a00;
     double s0, s1, s2;
     Vec3d n0, n1, n2;
-    Vec4f ColorH0, ColorH1, ColorH2, ColorH3;
+    Vec4f  ColorH3;
     Vec3d pc;
     bool checkIn(Vec3d pos);
     double rayTracer(Vec3d pe, Vec3d npe);
     Quadrics(int a02_, int a12_, int a22_, int a21_, int a00_, double s0_, double s1_, double s2_, Vec3d pc_, Vec4f ColorH0_, Vec4f ColorH1_, Vec4f ColorH2_, Vec4f ColorH3_);
+    Quadrics(int a02_, int a12_, int a22_, int a21_, int a00_, double s0_, double s1_, double s2_, Vec3d pc_, Mat textureMap_, Vec4f ColorH3_);
+    vector<Vec4f> TexColorDeter(Vec3d Ph);
     Vec3d nH(Vec3d Ph);
 };
 
@@ -44,8 +56,27 @@ Quadrics::Quadrics(int a02_, int a12_, int a22_, int a21_, int a00_, double s0_,
     n0 = Vec3d(1,0,0);
     n1 = Vec3d(0,1,0);
     n2 = Vec3d(0,0,1);
-
+    sphereType = HOMO;
 }
+
+Quadrics::Quadrics(int a02_, int a12_, int a22_, int a21_, int a00_, double s0_, double s1_, double s2_, Vec3d pc_, Mat textureMap_, Vec4f ColorH3_){
+    a02 = a02_;
+    a12 = a12_;
+    a22 = a22_;
+    a21 = a21_;
+    a00 = a00_;
+    s0 = s0_;
+    s1 = s1_;
+    s2 = s2_;
+    pc = pc_;
+    textureMap = textureMap_;
+    ColorH3 = ColorH3_;
+    n0 = Vec3d(1,0,0);
+    n1 = Vec3d(0,1,0);
+    n2 = Vec3d(0,0,1);
+    sphereType = TEXTURE;
+}
+
 
 bool Quadrics::checkIn(Vec3d pos){
     double F = pow((pos-pc).dot(n0)/s0,2)*a02+pow((pos-pc).dot(n1)/s1,2)*a12+pow((pos-pc).dot(n2)/s2,2)*a22+a00;
@@ -70,6 +101,44 @@ double Quadrics::rayTracer(Vec3d pe, Vec3d npe){
     else return ((-B-sqrt(pow(B,2)-4*A*C))/(2*A));
 }
 
+vector<Vec4f> Quadrics::TexColorDeter(Vec3d Ph){
+    vector<Vec4f> texColors(3);
+    if(sphereType == HOMO){
+        texColors[0] = ColorH0;
+        texColors[1] = ColorH1;
+        texColors[2] = ColorH2;
+        return texColors;
+    }
+    else{
+        Vec3d npe;
+        npe = (Ph-pc)/norm(Ph-pc);
+        double x,y,z,theta,phi;
+        int X,Y;
+        x = npe.dot(n0);
+        y = npe.dot(n1);
+        z = npe.dot(n2);
+        phi = acos(z);
+        theta = acos(y/sin(phi));
+        if(x<0) theta = 2*PI - theta;
+        X = max(min(int(round((theta/(2*PI))*textureMap.cols)),textureMap.cols),0);
+        Y = max(min(int(round((phi/(PI))*textureMap.rows)),textureMap.rows),0);
+
+        texColors[1][0] = textureMap.at<Vec3b>(Y, X)[0];
+        texColors[1][1] = textureMap.at<Vec3b>(Y, X)[1];
+        texColors[1][2] = textureMap.at<Vec3b>(Y, X)[2];
+        texColors[1][3] = 255;
+
+        for(int i = 0; i < 3; i ++){
+            texColors[0][i] = texColors[1][i]/5;
+            texColors[2][i] = min(texColors[1][i], float(255.0));
+            texColors[2][i] *= 10;
+        }
+        texColors[0][3] = 255;
+        texColors[2][3] = 2550;
+        return texColors;
+    }
+}
+
 class Planes{
 private:
     Vec4f ColorH0, ColorH1, ColorH2;
@@ -79,18 +148,37 @@ private:
     };
     PlaneType planeType;
     Mat textureMap;
+    Mat normalMap;
     float s0, s1; //params for texture map
 public:
     Vec3d pc;
     Vec3d n1, n2, n0;
     Vec4f ColorH3;
     Planes(Vec3d n2_, Vec3d pc_, Vec4f ColorH0_, Vec4f ColorH1_, Vec4f ColorH2_, Vec4f ColorH3_);
-    Planes(Vec3d n2_, Vec3d pc_, Vec3d n1_, Mat textureMap_, float s0_, float s1_, Vec4f ColorH3_);
+    Planes(Vec3d n2_, Vec3d pc_, Vec3d n1_, Mat textureMap_, Mat normalMap_, float s0_, float s1_, Vec4f ColorH3_);
     vector<Vec4f> TexColorDeter(Vec3d ph);
     bool checkIn(Vec3d pos);
     Vec3d nH(void);
+    Vec3d nH_Tex(Vec3d Ph);
     double rayTracer(Vec3d pe, Vec3d npe);
 };
+
+Vec3d Planes::nH_Tex(Vec3d Ph){
+    Vec3d nH;
+    double xH,yH,zH;
+    double x = (Ph - pc).dot(n0)/s0;
+    double y = (Ph - pc).dot(n1)/s1;
+    int xI = min(max(int(round((x-floor(x))*normalMap.cols)),0),normalMap.cols);
+    int yI = min(max(int(round((y-floor(y))*normalMap.rows)),0),normalMap.cols);
+//        cout << "xI is " << xI << " yI is " << yI << endl;
+    xH = normalMap.at<Vec3b>(yI, xI)[0]/255.0 - 0.5;
+    yH = normalMap.at<Vec3b>(xI, yI)[1]/255.0 - 0.5;
+    zH = normalMap.at<Vec3b>(xI, yI)[2]/255.0 - 0.5;
+
+    nH = xH*n0 + yH*n1 + zH*n2;
+    return nH;
+}
+
 
 Vec3d Planes::nH(void){
     return n2;
@@ -106,7 +194,7 @@ Planes::Planes(Vec3d n2_, Vec3d pc_, Vec4f ColorH0_, Vec4f ColorH1_, Vec4f Color
     planeType = HOMO;
 }
 
-Planes::Planes(Vec3d n2_, Vec3d pc_, Vec3d n1_, Mat textureMap_, float s0_, float s1_, Vec4f ColorH3_){
+Planes::Planes(Vec3d n2_, Vec3d pc_, Vec3d n1_, Mat textureMap_, Mat normalMap_, float s0_, float s1_, Vec4f ColorH3_){
     n1 = n1_;
     n2 = n2_;
     n0 = n1.cross(n2);
@@ -116,6 +204,7 @@ Planes::Planes(Vec3d n2_, Vec3d pc_, Vec3d n1_, Mat textureMap_, float s0_, floa
     textureMap = textureMap_;
     s0 = s0_;
     s1 = s1_;
+    normalMap = normalMap_;
 }
 
 bool Planes::checkIn(Vec3d pos){
@@ -142,9 +231,9 @@ vector<Vec4f> Planes::TexColorDeter(Vec3d ph = Vec3d(0,0,0)){
         int xI = round((x-floor(x))*textureMap.cols);
         int yI = round((y-floor(y))*textureMap.rows);
 //        cout << "xI is " << xI << " yI is " << yI << endl;
-        texColors[1][0] = textureMap.at<Vec3b>(xI, yI)[0];
-        texColors[1][1] = textureMap.at<Vec3b>(xI, yI)[1];
-        texColors[1][2] = textureMap.at<Vec3b>(xI, yI)[2];
+        texColors[1][0] = textureMap.at<Vec3b>(yI, xI)[0];
+        texColors[1][1] = textureMap.at<Vec3b>(yI, xI)[1];
+        texColors[1][2] = textureMap.at<Vec3b>(yI, xI)[2];
         texColors[1][3] = 255;
 
         for(int i = 0; i < 3; i ++){
@@ -154,6 +243,7 @@ vector<Vec4f> Planes::TexColorDeter(Vec3d ph = Vec3d(0,0,0)){
         }
         texColors[0][3] = 255;
         texColors[2][3] = 2550;
+        return texColors;
     }
 }
 
@@ -353,13 +443,14 @@ Vec3b colorShadowDeter::ColorDeter(Vec3d pe, double kb, double k0, vector<Planes
     b = std::max(((1-cosEH)-0.92)/0.08,0.0);
 
     if(objectIdx < vecQuad.size()){
+        vector<Vec4f> textureClr = vecQuad[objectIdx].TexColorDeter(Ph);
         for(int i = 0; i < lighters.size(); i ++){
-            if((shadowMode == HARD_SHADOW)&&(fabs(shadowFlag[i]) < 1e-2)) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, vecQuad[objectIdx].ColorH0, vecQuad[objectIdx].ColorH1, vecQuad[objectIdx].ColorH2, vecQuad[objectIdx].ColorH3);
-            else if(shadowMode == SOFT_SHADOW) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, vecQuad[objectIdx].ColorH0, vecQuad[objectIdx].ColorH1, vecQuad[objectIdx].ColorH2, vecQuad[objectIdx].ColorH3)/(shadowFlag[i]+1);
-            else if(shadowMode == DOWN_SHADOW) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, vecQuad[objectIdx].ColorH0, vecQuad[objectIdx].ColorH1, vecQuad[objectIdx].ColorH2, vecQuad[objectIdx].ColorH3)/(std::max(double(shadowFlag[i]/0.5), 1.0));
-            else if(shadowMode == DOWN_SHADOW) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, vecQuad[objectIdx].ColorH0, vecQuad[objectIdx].ColorH1, vecQuad[objectIdx].ColorH2, vecQuad[objectIdx].ColorH3)/(std::max(double(shadowFlag[i]/0.5), 1.0));
+            if((shadowMode == HARD_SHADOW)&&(fabs(shadowFlag[i]) < 1e-2)) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, textureClr[0], textureClr[1], textureClr[2], vecQuad[objectIdx].ColorH3);
+            else if(shadowMode == SOFT_SHADOW) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, textureClr[0], textureClr[1], textureClr[2], vecQuad[objectIdx].ColorH3)/(shadowFlag[i]+1);
+            else if(shadowMode == DOWN_SHADOW) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, textureClr[0], textureClr[1], textureClr[2], vecQuad[objectIdx].ColorH3)/(std::max(double(shadowFlag[i]/0.5), 1.0));
+            else if(shadowMode == DOWN_SHADOW) colorSum4f += lighters[i].colorSDcal(pe, Ph, nH, textureClr[0], textureClr[1], textureClr[2], vecQuad[objectIdx].ColorH3)/(std::max(double(shadowFlag[i]/0.5), 1.0));
         }
-        colorSum4f += k0*vecQuad[objectIdx].ColorH0 + b*kb*vecQuad[objectIdx].ColorH3;
+        colorSum4f += k0*textureClr[0] + b*kb*vecQuad[objectIdx].ColorH3;
     }
     else{
         vector<Vec4f> textureClr = vecPlane[objectIdx - vecQuad.size()].TexColorDeter(Ph);
@@ -415,6 +506,9 @@ int main(int argc, char *argv[]){
     vector<Scalar> color{Scalar(255,224,147),Scalar(93,66,255),Scalar(255,255,255),Scalar(230,180,80)};
     Mat img(Size(640,480),CV_8UC3,color[0]);
     Mat texturePlane = imread("Texture.jpg");
+    Mat sphereTexture = imread("sphereTexture.jpg");
+    Mat sphereTexture2 = imread("sphereTexture2.jpg");
+    Mat normalTexture = imread("normal.jpg");
     double Sx = 16, Sy = 12;
     Vec3d pos;
     Vec3d Ph;
@@ -433,14 +527,14 @@ int main(int argc, char *argv[]){
     vector<Planes> planes;
     vector<lightSource> lighters;
 
-    spheres.push_back(Quadrics(1,1,1,0,-1,5,5,5,Vec3d(0,0,5),Vec4f(53,36,155,255),Vec4f(113,86,255,255),Vec4f(1930,1660,2550,2550),Vec4f(0,0,0,255)));
-    spheres.push_back(Quadrics(1,1,1,0,-1,3,3,3,Vec3d(0,12,4),Vec4f(150,50,50,255),Vec4f(205,100,100,255),Vec4f(2550,2000,2000,2550),Vec4f(0,0,0,255)));
-    planes.push_back(Planes(Vec3d(0,0,1),Vec3d(0,0,0),Vec3d(0,1,0),texturePlane,10,10,Vec4f(10,10,10,255)));
+    spheres.push_back(Quadrics(1,1,1,0,-1,5,5,5,Vec3d(0,0,5),sphereTexture,Vec4f(0,0,0,255)));
+    spheres.push_back(Quadrics(1,1,1,0,-1,3,3,3,Vec3d(0,12,4),sphereTexture2,Vec4f(0,0,0,255)));
+    planes.push_back(Planes(Vec3d(0,0,1),Vec3d(0,0,0),Vec3d(0,1,0),texturePlane,normalTexture,10,10,Vec4f(10,10,10,255)));
 //    planes.push_back(Planes(Vec3d(-1,0,0),Vec3d(12,0,0),Vec4f(50,100,50,255),Vec4f(170,220,170,255),Vec4f(160,210,160,255),Vec4f(10,10,10,255)));
 //    planes.push_back(Planes(Vec3d(0,1,0),Vec3d(0,-9,0),Vec4f(50,50,100,255),Vec4f(170,170,220,255),Vec4f(1800,1800,2300,2550),Vec4f(10,10,10,255)));
 
     //area light
-    lighters.push_back(lightSource(Vec3d(-10,-20,30), Vec3d(0.5773,-0.5773,-0.5773), 0.9,0.5,0.5,Vec4f(15,15,15,15), lightSource::POINTLIGHT));
+    lighters.push_back(lightSource(Vec3d(-10,-20,30), Vec3d(0.5773,-0.5773,-0.5773), 0.9,0.5,0.5,Vec4f(60,60,60,60), lightSource::POINTLIGHT));
 
     //camera
     Vec3d pe(40,0,6);
