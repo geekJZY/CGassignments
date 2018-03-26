@@ -412,6 +412,48 @@ int traceTimeComp(vector<double> traceVecTime){
     return minIdx;
 }
 
+Vec4f projectColorDet(vector<Planes> vecPlane, vector<Quadrics> vecQuad, Mat projectImg, Vec3d planeA, Vec3d planeX, Vec3d planeC, float x_solid, float y_solid, Vec3d projP, Vec3d ph, int flag = 0){
+    vector<double> timeRayVec;
+    int objectIdx;
+
+    if(flag == 0){ //parallel projection
+        Vec3d vpc;
+        vpc = ph-planeC;
+        double x,y;
+        int X,Y;
+        Vec3d planeY = planeA.cross(planeX);
+        x = vpc.dot(planeX);
+        y = vpc.dot(planeY);
+        X = x / x_solid * projectImg.cols;
+        Y = y / y_solid * projectImg.rows;
+        if(X < 0 || X > projectImg.cols || Y < 0 || Y > projectImg.rows){
+            return Vec4f(0,0,0,0);
+        }
+        for(int i = 0; i < vecQuad.size(); i ++){
+            timeRayVec.push_back(vecQuad[i].rayTracer(ph,-planeA));
+            if(timeRayVec[i] > -0.1){
+                return Vec4f(0,0,0,0);
+            }
+        }
+        for(int i = 0; i < vecPlane.size(); i ++)  timeRayVec.push_back(vecPlane[i].rayTracer(ph,-planeA));
+        for(int i = 0; i < timeRayVec.size(); i ++){
+            if(timeRayVec[i] > 0.1){
+                return Vec4f(0,0,0,0);
+            }
+        }
+
+        Vec4f projColor;
+        projColor[0] = projectImg.at<Vec3b>(Y, X)[0];
+        projColor[1] = projectImg.at<Vec3b>(Y, X)[1];
+        projColor[2] = projectImg.at<Vec3b>(Y, X)[2];
+        projColor[3] = 255;
+
+        return projColor;
+    }
+    else if(flag == 1){
+
+    }
+}
 
 class colorShadowDeter{
 public:
@@ -426,7 +468,7 @@ public:
     Vec3d Ph;
     colorShadowDeter(ShadowMode shadowMode);
     void PhCal(Vec3d pe, Vec3d npe, vector<Planes> vecPlane, vector<Quadrics> vecQuad);
-    Vec3b ColorDeter(Vec3d pe, double kb, double k0, vector<Planes> vecPlane, vector<Quadrics> vecQuad, vector<lightSource> lighters, vector<float> shadowFlag);
+    Vec3b ColorDeter(Vec3d pe, double kb, double k0, vector<Planes> vecPlane, vector<Quadrics> vecQuad, vector<lightSource> lighters, Mat projImg, vector<float> shadowFlag);
     vector<float> shadowRayTracing(vector<Planes> planes, vector<Quadrics> spheres, vector<lightSource> lighters);
 };
 
@@ -522,7 +564,7 @@ void colorShadowDeter::PhCal(Vec3d pe, Vec3d npe, vector<Planes> vecPlane, vecto
     if(objectIdx >= 0) Ph = cameraPhGrab(pe, npe, timeRayVec[objectIdx]);
 }
 
-Vec3b colorShadowDeter::ColorDeter(Vec3d pe, double kb, double k0, vector<Planes> vecPlane, vector<Quadrics> vecQuad, vector<lightSource> lighters, vector<float> shadowFlag){
+Vec3b colorShadowDeter::ColorDeter(Vec3d pe, double kb, double k0, vector<Planes> vecPlane, vector<Quadrics> vecQuad, vector<lightSource> lighters, Mat projImg, vector<float> shadowFlag){
     Vec4f colorSum4f(0,0,0,0);
 
     double b; //the coefficient for hale light.
@@ -559,6 +601,7 @@ Vec3b colorShadowDeter::ColorDeter(Vec3d pe, double kb, double k0, vector<Planes
         }
         colorSum4f += k0*textureClr[0] + b*kb*vecPlane[objectIdx - vecQuad.size()].ColorH3;
     }
+    colorSum4f += projectColorDet(vecPlane, vecQuad, projImg, Vec3d(0,0,-1), Vec3d(-1,0,0), Vec3d(6,0,10), 12, 12, Vec3d(0,0,0), Ph, 0);
     //output and test
 //    if(norm(Ph-Vec3d(11,-9,1))<0.1){
 //        cout << "Ph is " << Ph << endl;
@@ -594,6 +637,7 @@ vector<float> colorShadowDeter::shadowRayTracing(vector<Planes> planes,vector<Qu
     return tracingTime;
 }
 
+
 int main(int argc, char *argv[]){
 
     vector<Scalar> color{Scalar(255,224,147),Scalar(93,66,255),Scalar(255,255,255),Scalar(230,180,80)};
@@ -602,6 +646,7 @@ int main(int argc, char *argv[]){
     Mat sphereTexture = imread("ball_image_small.jpg");
     Mat sphereTexture2 = imread("ball_image_10_small.jpg");
     Mat normalTexture = imread("normal.jpg");
+    Mat projImg = imread("projImg.jpg");
     double Sx = 16, Sy = 12;
     Vec3d pos;
     Vec3d Ph;
@@ -630,9 +675,9 @@ int main(int argc, char *argv[]){
     lighters.push_back(lightSource(Vec3d(0,40,50), Vec3d(0.5773,-0.5773,-0.5773), 0.9,0.5,0.5,Vec4f(60,60,60,60), lightSource::POINTLIGHT));
 
     //camera
-    Vec3d pe(40,25,6);
+    Vec3d pe(40,25,26);
     Vec3d vUp(-1,0,1);
-    Vec3d v2(20,10,1);
+    Vec3d v2(20,10,10);
     Vec3d n0Vec(0,-1,0);
     Vec3d n2 = v2/norm(v2);
 
@@ -684,7 +729,7 @@ int main(int argc, char *argv[]){
                     if((xCnt == 0)&&(yCnt == 0)){
                         shadowFlag = CSDeter.shadowRayTracing(planes, spheres, lighters);
                     }
-                    colorSum += CSDeter.ColorDeter(pe, kb, k0, planes, spheres, lighters, shadowFlag);
+                    colorSum += CSDeter.ColorDeter(pe, kb, k0, planes, spheres, lighters, projImg, shadowFlag);
                 }
             img.at<Vec3b>(n,m) = Vec3b((colorSum)/(xSample*ySample));
 
