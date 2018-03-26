@@ -450,7 +450,46 @@ Vec4f projectColorDet(vector<Planes> vecPlane, vector<Quadrics> vecQuad, Mat pro
 
         return projColor;
     }
-    else if(flag == 1){
+    else if(flag == 1){ //perspective projection
+        Vec3d vph, pI;
+        vph = ph-projP;
+        Vec3b nhp = -vph/norm(vph);
+        double t,x,y;
+        int X,Y;
+        t = planeA.dot(planeC - projP)/(planeA.dot(vph));
+        if(t < 0 || t > 1){
+            return Vec4f(0,0,0,0);
+        }
+        pI = projP + t * vph - planeC;
+        x = pI.dot(planeX);
+        Vec3b planeY = planeA.cross(planeX);
+        y = pI.dot(planeY);
+        X = x / x_solid * projectImg.cols;
+        Y = y / y_solid * projectImg.rows;
+        if(X < 0 || Y < 0 || X >= projectImg.cols || Y >= projectImg.rows){
+            return Vec4f(0,0,0,0);
+        }
+
+        for(int i = 0; i < vecQuad.size(); i ++){
+            timeRayVec.push_back(vecQuad[i].rayTracer(ph,nhp));
+            if(timeRayVec[i] > -0.1){
+                return Vec4f(0,0,0,0);
+            }
+        }
+        for(int i = 0; i < vecPlane.size(); i ++)  timeRayVec.push_back(vecPlane[i].rayTracer(ph,nhp));
+        for(int i = 0; i < timeRayVec.size(); i ++){
+            if(timeRayVec[i] > 0.1){
+                return Vec4f(0,0,0,0);
+            }
+        }
+
+        Vec4f projColor;
+        projColor[0] = projectImg.at<Vec3b>(Y, X)[0];
+        projColor[1] = projectImg.at<Vec3b>(Y, X)[1];
+        projColor[2] = projectImg.at<Vec3b>(Y, X)[2];
+        projColor[3] = 255;
+
+        return projColor;
 
     }
 }
@@ -601,7 +640,7 @@ Vec3b colorShadowDeter::ColorDeter(Vec3d pe, double kb, double k0, vector<Planes
         }
         colorSum4f += k0*textureClr[0] + b*kb*vecPlane[objectIdx - vecQuad.size()].ColorH3;
     }
-    colorSum4f += projectColorDet(vecPlane, vecQuad, projImg, Vec3d(0,0,-1), Vec3d(-1,0,0), Vec3d(6,0,10), 12, 12, Vec3d(0,0,0), Ph, 0);
+    colorSum4f += projectColorDet(vecPlane, vecQuad, projImg, Vec3d(0,0,-1), Vec3d(-1,0,0), Vec3d(5,7,10), 4, 4, Vec3d(5,7,12), Ph, 1);
     //output and test
 //    if(norm(Ph-Vec3d(11,-9,1))<0.1){
 //        cout << "Ph is " << Ph << endl;
