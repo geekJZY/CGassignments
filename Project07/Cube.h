@@ -1,5 +1,5 @@
-#ifndef TETRAHEDRON
-#define TETRAHEDRON
+#ifndef CUBE
+#define CUBE
 
 #include <iostream>
 #include <stdlib.h>
@@ -12,10 +12,8 @@
 using namespace std;
 using namespace cv;
 
-///Define Tetrahedron
-int traceTimeComp(vector<double> traceVecTime);
-
-class Tetrahedron{
+///Define Cube
+class Cube{
 private:
 
 public:
@@ -26,8 +24,8 @@ public:
     Vec4f ColorH0, ColorH1, ColorH2;
     Quadrics quad;
 
-    Tetrahedron(vector<Vec3d> points, Vec4f colorH0_, Vec4f colorH1_, Vec4f colorH2_, Vec4f colorH3_, Quadrics quad_);
+    Cube(vector<Vec3d> points, Vec4f colorH0_, Vec4f colorH1_, Vec4f colorH2_, Vec4f colorH3_, Quadrics quad_);
     colorUnite rayTrace(Vec3d pe, Vec3d nep);
 };
 
-#endif // TETRAHEDRON
+#endif // CUBE

@@ -8,6 +8,7 @@
 #include "lightSource.h"
 #include "Quartics.h"
 #include "Tetrahedron.h"
+#include "Cube.h"
 
 #define PI 3.1415927
 
@@ -29,16 +30,20 @@ int main(int argc, char *argv[]){
     //the efficient of background and outline
     double kb = 0.5, k0 = 0.5;
     vector<float> shadowFlag;
-    Quadrics quad(1,1,1,0,-1,sqrt(6)/2,sqrt(6)/2,sqrt(6)/2,Vec3d(sqrt(3)/3,0,sqrt(6)/6),Vec4f(0,0,0,0), Vec4f(0,0,0,0), Vec4f(0,0,0,0),Vec4f(0,0,0,255));
+    Quadrics quad(1,1,1,0,-1,sqrt(3),sqrt(3),sqrt(3),Vec3d(0,0,0),Vec4f(0,0,0,0), Vec4f(0,0,0,0), Vec4f(0,0,0,0),Vec4f(0,0,0,255));
     colorUnite colorIns;
 
     ///define Tetrahedron
     vector<Vec3d> points;
-    points.push_back(Vec3d(sqrt(3)/3,0,2*sqrt(6)/3));
-    points.push_back(Vec3d(0,-1,0));
-    points.push_back(Vec3d(sqrt(3),0,0));
-    points.push_back(Vec3d(0,1,0));
-    Tetrahedron tetra(points, Vec4f(53,36,155,255),Vec4f(113,86,255,255),Vec4f(1930,1660,2550,2550),Vec4f(0,0,0,255), quad);
+    points.push_back(Vec3d(1,-1,1));
+    points.push_back(Vec3d(-1,-1,1));
+    points.push_back(Vec3d(-1,1,1));
+    points.push_back(Vec3d(1,1,1));
+    points.push_back(Vec3d(1,1,-1));
+    points.push_back(Vec3d(-1,1,-1));
+    points.push_back(Vec3d(-1,-1,-1));
+    points.push_back(Vec3d(1,-1,-1));
+    Cube cube(points, Vec4f(53,36,155,255),Vec4f(113,86,255,255),Vec4f(1930,1660,2550,2550),Vec4f(0,0,0,255), quad);
 
     lightSource light(Vec3d(0,40,50), Vec3d(0.5773,-0.5773,-0.5773),Vec4f(60,60,60,60), 0.9,0.5,0.5,0.5, lightSource::SPOT);
 
@@ -86,9 +91,10 @@ int main(int argc, char *argv[]){
                     npe = (pe - pos)/norm(pe - pos);
 
                     if(quad.rayTracer(pe, npe) > 0){
-                        colorIns = tetra.rayTrace(pe, npe);
+                        colorIns = cube.rayTrace(pe, npe);
                         if(norm(colorIns.norm) > 1e-5){
                             colorSum += light.colorDeter(pe, colorIns.Ph, colorIns.norm, colorIns.ColorH0, colorIns.ColorH1, colorIns.ColorH2, colorIns.ColorH3);
+//                            cout << colorIns.norm << endl;
                         }
                     }
 

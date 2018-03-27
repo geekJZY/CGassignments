@@ -32,6 +32,8 @@
 		<Linker>
 			<Add option="`opencv-config --ldstaticflags`" />
 		</Linker>
+		<Unit filename="Cube.cpp" />
+		<Unit filename="Cube.h" />
 		<Unit filename="Quartics.cpp" />
 		<Unit filename="Quartics.h" />
 		<Unit filename="Tetrahedron.cpp" />
