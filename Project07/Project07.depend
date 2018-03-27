@@ -1,0 +1,49 @@
+# depslib dependency file v1.0
+1522109797 source:/home/jzy/code_OpenCV/CGassignments/Project07/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"colorUn.h"
+	"lightSource.h"
+	"Quartics.h"
+	"Tetrahedron.h"
+
+1522092800 source:/home/jzy/code_OpenCV/CGassignments/Project07/Quartics.cpp
+	"Quartics.h"
+
+1522106889 /home/jzy/code_OpenCV/CGassignments/Project07/Quartics.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1522109324 source:/home/jzy/code_OpenCV/CGassignments/Project07/colorUn.cpp
+	"colorUn.h"
+
+1522109298 /home/jzy/code_OpenCV/CGassignments/Project07/colorUn.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1522106136 source:/home/jzy/code_OpenCV/CGassignments/Project07/Tetrahedron.cpp
+	"Tetrahedron.h"
+
+1522106948 /home/jzy/code_OpenCV/CGassignments/Project07/Tetrahedron.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"colorUn.h"
+
+1522106722 source:/home/jzy/code_OpenCV/CGassignments/Project07/lightSource.cpp
+	"lightSource.h"
+
+1522106820 /home/jzy/code_OpenCV/CGassignments/Project07/lightSource.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
