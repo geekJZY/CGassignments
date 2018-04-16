@@ -1,0 +1,142 @@
+# depslib dependency file v1.0
+1522109324 source:/home/jzy/code_OpenCV/CGassignments/Project08/colorUn.cpp
+	"colorUn.h"
+
+1522109298 /home/jzy/code_OpenCV/CGassignments/Project08/colorUn.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1522119769 source:/home/jzy/code_OpenCV/CGassignments/Project08/Cube.cpp
+	"Cube.h"
+	"Tetrahedron.h"
+
+1522117413 /home/jzy/code_OpenCV/CGassignments/Project08/Cube.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"colorUn.h"
+
+1522106889 /home/jzy/code_OpenCV/CGassignments/Project08/Quartics.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1522117509 /home/jzy/code_OpenCV/CGassignments/Project08/Tetrahedron.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"colorUn.h"
+
+1522106722 source:/home/jzy/code_OpenCV/CGassignments/Project08/lightSource.cpp
+	"lightSource.h"
+
+1522106820 /home/jzy/code_OpenCV/CGassignments/Project08/lightSource.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1522641307 source:/home/jzy/code_OpenCV/CGassignments/Project08/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"src/colorUn.h"
+	"src/lightSource.h"
+	"src/Quartics.h"
+	"src/plane.h"
+	"src/Tetrahedron.h"
+	"src/Cube.h"
+	"src/colorDet.h"
+
+1522106136 source:/home/jzy/code_OpenCV/CGassignments/Project08/Tetrahedron.cpp
+	"Tetrahedron.h"
+
+1522463581 /home/jzy/code_OpenCV/CGassignments/Project08/src/colorUn.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522525766 /home/jzy/code_OpenCV/CGassignments/Project08/src/definition.h
+
+1522514247 /home/jzy/code_OpenCV/CGassignments/Project08/src/lightSource.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522557958 /home/jzy/code_OpenCV/CGassignments/Project08/src/Quartics.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522615834 /home/jzy/code_OpenCV/CGassignments/Project08/src/Tetrahedron.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1522620385 /home/jzy/code_OpenCV/CGassignments/Project08/src/Cube.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1522439239 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/colorUn.cpp
+	"colorUn.h"
+
+1522620451 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/Cube.cpp
+	"Cube.h"
+	"Tetrahedron.h"
+
+1522514247 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/lightSource.cpp
+	"lightSource.h"
+
+1522626231 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/plane.cpp
+	"plane.h"
+
+1522505663 /home/jzy/code_OpenCV/CGassignments/Project08/src/plane.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522597678 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/Quartics.cpp
+	"Quartics.h"
+
+1522644260 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/colorDet.cpp
+	"colorDet.h"
+
+1522644271 /home/jzy/code_OpenCV/CGassignments/Project08/src/colorDet.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"plane.h"
+	"lightSource.h"
+	"definition.h"
+	"Cube.h"
+
+1522615834 source:/home/jzy/code_OpenCV/CGassignments/Project08/src/Tetrahedron.cpp
+	"Tetrahedron.h"
+
