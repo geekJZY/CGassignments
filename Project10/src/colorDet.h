@@ -18,6 +18,7 @@ using namespace cv;
 class colorDet{
 private:
     int traceTimeComp(vector<double> traceVecTime);
+    Vec3d jitter(Vec3d n);
 
     Mat projectImg;
     Vec3d planeA;

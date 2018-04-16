@@ -1,5 +1,22 @@
 #include "colorDet.h"
 
+Vec3d colorDet::jitter(Vec3d n){
+    n = n/norm(n);
+
+    //produce perpendicular vector
+    Vec3d n0 = Vec3d(1,0,0);
+    if(n0.dot(n)>0.99) n0 = Vec3d(0,1,0);
+    n0 = n0 - n0.dot(n)*n;
+    Vec3d n1 = n0.cross(n);
+
+    //produce rand vector
+    float range = 0.1;
+    double a1 = (rand()%10000)/5000.0 - 1;
+    double a2 = (rand()%10000)/5000.0 - 1;
+    n = n + a1 * range * n0 + a2 * range * n1;
+    return n/norm(n);
+}
+
 //The index of object is starting from 0
 ///Planes -> Spheres
 
@@ -356,6 +373,8 @@ Vec4f colorDet::colorReturn(int objFrom, int objInx, Vec3d ph, Vec3d nep, int ti
             bRR = C/nRR - sqrt(delta);
             vRR = aRR * (-nep) + bRR * normVec;
             vRR = vRR/ norm(vRR);
+            //jitter version
+            vRR = this -> jitter(vRR);
             rayRR = this -> spaceTracer(vRR, ph);
             return 0.9* this -> colorReturn(objInx, rayRR.first, rayRR.second, vRR, tierCnt + 1);
         }

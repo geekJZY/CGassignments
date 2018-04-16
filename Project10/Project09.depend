@@ -93,3 +93,97 @@
 	"src/Cube.h"
 	"src/colorDet.h"
 
+1523333506 source:/home/jzy/code_OpenCV/CGassignments/Project10/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"src/colorUn.h"
+	"src/lightSource.h"
+	"src/Quartics.h"
+	"src/plane.h"
+	"src/Tetrahedron.h"
+	"src/Cube.h"
+	"src/colorDet.h"
+
+1522463581 /home/jzy/code_OpenCV/CGassignments/Project10/src/colorUn.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522525766 /home/jzy/code_OpenCV/CGassignments/Project10/src/definition.h
+
+1522514247 /home/jzy/code_OpenCV/CGassignments/Project10/src/lightSource.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1523290039 /home/jzy/code_OpenCV/CGassignments/Project10/src/Quartics.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522505663 /home/jzy/code_OpenCV/CGassignments/Project10/src/plane.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522615834 /home/jzy/code_OpenCV/CGassignments/Project10/src/Tetrahedron.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1523331239 /home/jzy/code_OpenCV/CGassignments/Project10/src/Cube.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1523917804 /home/jzy/code_OpenCV/CGassignments/Project10/src/colorDet.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"plane.h"
+	"lightSource.h"
+	"definition.h"
+	"Cube.h"
+
+1523332358 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/colorDet.cpp
+	"colorDet.h"
+
+1522439239 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/colorUn.cpp
+	"colorUn.h"
+
+1522514247 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/lightSource.cpp
+	"lightSource.h"
+
+1522626231 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/plane.cpp
+	"plane.h"
+
+1523290119 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Quartics.cpp
+	"Quartics.h"
+
+1522615834 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Tetrahedron.cpp
+	"Tetrahedron.h"
+
+1523917379 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Cube.cpp
+	"Cube.h"
+	"Tetrahedron.h"
+

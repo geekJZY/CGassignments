@@ -107,13 +107,14 @@ double Cube::rayTrace(Vec3d pe, Vec3d nep){
                 yI = min(normalMap.rows-1, int(round(v * normalMap.rows)));
                 Vec3d n0_R, n1_G, n2_B;
                 float a,b,c;
-                n2_B = norms[timeIdx];
-                n0_R = (vecPoints[timeIdx][1]-vecPoints[timeIdx][0])/norm(vecPoints[timeIdx][1]-vecPoints[timeIdx][0]);
-                n1_G = (vecPoints[timeIdx][3]-vecPoints[timeIdx][0])/norm(vecPoints[timeIdx][3]-vecPoints[timeIdx][0]);
-                a = 2*normalMap.at<Vec3b>(yI, xI)[2]/255.0 - 1;
-                b = 2*normalMap.at<Vec3b>(yI, xI)[1]/255.0 - 1;
-                c = 2*normalMap.at<Vec3b>(yI, xI)[0]/255.0 - 1;
-                normalSave = a*n0_R + b*n1_G + c*n2_B;
+//                n2_B = norms[timeIdx];
+//                n0_R = (vecPoints[timeIdx][1]-vecPoints[timeIdx][0])/norm(vecPoints[timeIdx][1]-vecPoints[timeIdx][0]);
+//                n1_G = (vecPoints[timeIdx][3]-vecPoints[timeIdx][0])/norm(vecPoints[timeIdx][3]-vecPoints[timeIdx][0]);
+//                a = 2*normalMap.at<Vec3b>(yI, xI)[2]/255.0 - 1;
+//                b = 2*normalMap.at<Vec3b>(yI, xI)[1]/255.0 - 1;
+//                c = 2*normalMap.at<Vec3b>(yI, xI)[0]/255.0 - 1;
+//                normalSave = a*n0_R + b*n1_G + c*n2_B;
+                normalSave = norms[timeIdx];
 
                 return ts[timeIdx];
             }
