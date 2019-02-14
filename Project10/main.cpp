@@ -11,6 +11,7 @@
 #include "src/Tetrahedron.h"
 #include "src/Cube.h"
 #include "src/colorDet.h"
+#include "src/cameraLightGenerator.h"
 
 #define PI 3.1415927
 
@@ -28,9 +29,8 @@ int main(int argc, char *argv[]){
     Mat sphereTexture2 = imread("ball_image_10_small.jpg");
     Mat universeTexture = imread("universe3.jpg");
     Mat normalTexture = imread("planenorm.png");
-    Mat projImg = imread("projImg.jpg");
-    Mat normalMapCube = imread("planenorm.png");
-    double Sx = 16, Sy = 12;
+    //Mat normalMapCube = imread("planenorm.png");
+    double Sx = 6, Sy = 4.5;
     Vec3d pos;
     Vec3d Ph;
     int objectIdx;
@@ -47,25 +47,27 @@ int main(int argc, char *argv[]){
     vector<Cube> cubes;
     vector<lightSource> lighters;
 
+    pair<vector<Vec3d>,vector<Vec3d>> eyeLights;
+
 
     ///define Tetrahedron
-    Quadrics quad(1,1,1,0,-1,4*sqrt(3),4*sqrt(3),4*sqrt(3),Vec3d(0,14,4),TX_HALF_RL_HALF_RR, 1,Vec4f(0,0,0,0), Vec4f(0,0,0,0), Vec4f(0,0,0,0),Vec4f(0,0,0,255));
-    vector<Vec3d> points;
-    points.push_back(Vec3d(4,10,8));
-    points.push_back(Vec3d(-4,10,8));
-    points.push_back(Vec3d(-4,18,8));
-    points.push_back(Vec3d(4,18,8));
-    points.push_back(Vec3d(4,18,0));
-    points.push_back(Vec3d(-4,18,0));
-    points.push_back(Vec3d(-4,10,0));
-    points.push_back(Vec3d(4,10,0));
-    cubes.push_back(Cube(points, Vec4f(53,36,155,255),Vec4f(113,86,255,255),Vec4f(1930,1660,2550,2550),Vec4f(0,0,0,255), TX_HALF_RL_HALF_RR, 1.33, quad, sphereTexture2, normalMapCube));
+//    Quadrics quad(1,1,1,0,-1,4*sqrt(3),4*sqrt(3),4*sqrt(3),Vec3d(0,14,4),TX_HALF_RL_HALF_RR, 1,Vec4f(0,0,0,0), Vec4f(0,0,0,0), Vec4f(0,0,0,0),Vec4f(0,0,0,255));
+//    vector<Vec3d> points;
+//    points.push_back(Vec3d(4,10,8));
+//    points.push_back(Vec3d(-4,10,8));
+//    points.push_back(Vec3d(-4,18,8));
+//    points.push_back(Vec3d(4,18,8));
+//    points.push_back(Vec3d(4,18,0));
+//    points.push_back(Vec3d(-4,18,0));
+//    points.push_back(Vec3d(-4,10,0));
+//    points.push_back(Vec3d(4,10,0));
+//    cubes.push_back(Cube(points, Vec4f(53,36,155,255),Vec4f(113,86,255,255),Vec4f(1930,1660,2550,2550),Vec4f(0,0,0,255), TX_HALF_RL_HALF_RR, 1.33, quad, sphereTexture2, normalMapCube));
 
-    spheres.push_back(Quadrics(1,1,1,0,-1,5,5,5,Vec3d(0,0,5),TX_OPAQUE, 1.33,sphereTexture,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(6,-6,11),Vec3d(0,-12,5),12,12,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE));
-//    spheres.push_back(Quadrics(1,1,1,0,-1,3,3,3,Vec3d(0,12,3),TX_HALF_RL_HALF_RR, 1.33,sphereTexture2,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(4,6,7),Vec3d(0,4,4),8,8,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE));
+    spheres.push_back(Quadrics(1,1,1,0,-1,5,5,5,Vec3d(20,0,5),TX_OPAQUE, 1.33,sphereTexture,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(26,-6,11),Vec3d(20,-12,5),12,12,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE));
+    spheres.push_back(Quadrics(1,1,1,0,-1,3,3,3,Vec3d(20,18,3),TX_OPAQUE, 1.33,sphereTexture2,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(24,6,7),Vec3d(20,4,4),8,8,Vec4f(0,0,0,255),Quadrics::SOLID_TEXTURE));
 
     //spheres.push_back(Quadrics(1,1,1,0,-1,100,100,100,Vec3d(0,0,0),TX_INFINITE_SPHERE,universeTexture,Vec3d(0,-1,0),Vec3d(-1,0,0),Vec3d(100,100,100),Vec3d(0,4,4),120,60,Vec4f(0,0,0,255),Quadrics::INFINITE_SPHERE));
-    planes.push_back(Planes(Vec3d(0,0,1),Vec3d(-10,-10,0),Vec3d(0,1,0),TX_OPAQUE, 1,texturePlane,normalTexture,10,10,Vec4f(10,10,10,255)));
+    planes.push_back(Planes(Vec3d(0,0,1),Vec3d(-10,-10,0),Vec3d(0,1,0),TX_HALF_RL_HALF_RR, 1,texturePlane,normalTexture,10,10,Vec4f(10,10,10,255)));
     planes.push_back(Planes(Vec3d(1,0,0),Vec3d(-10,-10,0),Vec3d(0,1,0),TX_OPAQUE, 1,wallPaper,normalTexture,10,10,Vec4f(10,10,10,255)));
     planes.push_back(Planes(Vec3d(0,1,0),Vec3d(-10,-10,0),Vec3d(1,0,0),TX_OPAQUE, 1,wallPaper,normalTexture,10,10,Vec4f(10,10,10,255)));
     planes.push_back(Planes(Vec3d(-1,0,0),Vec3d(40,40,50),Vec3d(0,1,0),TX_OPAQUE, 1,wallPaper,normalTexture,10,10,Vec4f(10,10,10,255)));
@@ -76,10 +78,9 @@ int main(int argc, char *argv[]){
     lighters.push_back(lightSource(Vec3d(0,30,30), Vec3d(0.5773,-0.5773,-0.5773), 0.9,0.5,0.5,Vec4f(60,60,60,60), lightSource::POINTLIGHT));
 
     //camera
-    Vec3d pe(40,25,15);
-    Vec3d vUp(-1,0,0.1);
-    Vec3d v2(20,10,4);
-    Vec3d n0Vec(0,-1,0);
+    Vec3d pe(25,39,10);
+    Vec3d v2(2,5,1);
+    Vec3d n0Vec(2.5,-1,0);
     Vec3d n2 = v2/norm(v2);
 
     Vec3d n0 = n0Vec/norm(n0Vec);
@@ -89,6 +90,7 @@ int main(int argc, char *argv[]){
     Vec3d pc(pcMat[0], pcMat[1], pcMat[2]);
     Vec3d th_P;
 
+    lightShooter eyeLightGene(pe, v2, 4.4);
     Vec3i colorSum;
     double cameraX,cameraY; //the coordinate in the camera
     Vec3d npe;
@@ -99,6 +101,7 @@ int main(int argc, char *argv[]){
     pair<int, Vec3d> rayTracing;
 
     cout << n0 << endl << n1 << endl << n2 << endl;
+    int sampleTimeBlur = 50;
     //colorDeter.projectColorInit(projImg, Vec3d(0,-1.44,-1.92)/norm(Vec3d(0,-1.44,-1.92)), Vec(-1,0,0), Vec(13,1,1), 2, 2, Vec(15,0,0));
     //checkIn
     for(int j = 0; j < planes.size(); j ++){
@@ -118,6 +121,7 @@ int main(int argc, char *argv[]){
             for(int xCnt = 0; xCnt < xSample; xCnt ++)
                 for(int yCnt = 0; yCnt < ySample; yCnt ++)
                 {
+
                     cameraX = (Sx*(m+(xCnt+randX)/xSample)/M-Sx/2.0);
                     cameraY = (Sy*(n+(yCnt+randY)/ySample)/N-Sy/2.0);
                     pos[0] = pc[0] + n1[0]*cameraY + n0[0]*cameraX;
@@ -125,12 +129,34 @@ int main(int argc, char *argv[]){
                     pos[2] = pc[2] + n1[2]*cameraY + n0[2]*cameraX;
                     npe = (pe - pos)/norm(pe - pos);
 
-                    rayTracing = colorDeter.spaceTracer(npe, pe);
-                    Vec4f temp = colorDeter.colorReturn(-1, rayTracing.first, rayTracing.second, npe, 1);
-                    colorSum += Vec3b(min(255, int(round(temp[0]*255/temp[3]))),min(255, int(round(temp[1]*255/temp[3]))),min(255, int(round(temp[2]*255/temp[3]))));
-                }
-            img.at<Vec3b>(n,m) = Vec3b((colorSum)/(xSample*ySample));
+//                    eyeLights = eyeLightGene.lightGene(pos);
 
+//                    for(int i = 0; i < eyeLights.first.size(); i ++){
+//                        rayTracing = colorDeter.spaceTracer(eyeLights.second[i], eyeLights.first[i]);
+//                        Vec4f temp = colorDeter.colorReturn(-1, rayTracing.first, rayTracing.second, eyeLights.second[i], 1);
+//                        colorSum += Vec3b(min(255, int(round(temp[0]*255/temp[3]))),min(255, int(round(temp[1]*255/temp[3]))),min(255, int(round(temp[2]*255/temp[3]))));
+//                    }
+                    vector<double> movingBuf{0,0.3,0.6,0.9,1.2,1.5,1.8,1.8,1.8,1.8};
+                    for(int i = 0; i < sampleTimeBlur; i ++){
+                        //moving object
+                        int randInx = rand()%movingBuf.size();
+                        colorDeter.spheres[0].pc[0] += movingBuf[randInx];
+                        colorDeter.spheres[0].projPoint[0] += movingBuf[randInx];
+                        colorDeter.spheres[0].planeC[0] += movingBuf[randInx];
+
+                        rayTracing = colorDeter.spaceTracer(npe, pe);
+                        Vec4f temp = colorDeter.colorReturn(-1, rayTracing.first, rayTracing.second, npe, 1);
+                        colorSum += Vec3b(min(255, int(round(temp[0]*255/temp[3]))),min(255, int(round(temp[1]*255/temp[3]))),min(255, int(round(temp[2]*255/temp[3]))));
+
+                        colorDeter.spheres[0].pc[0] -= movingBuf[randInx];
+                        colorDeter.spheres[0].projPoint[0] -= movingBuf[randInx];
+                        colorDeter.spheres[0].planeC[0] -= movingBuf[randInx];
+                    }
+                }
+            colorSum[0] = int(colorSum[0]/(xSample*ySample)/sampleTimeBlur);
+            colorSum[1] = int(colorSum[1]/(xSample*ySample)/sampleTimeBlur);
+            colorSum[2] = int(colorSum[2]/(xSample*ySample)/sampleTimeBlur);
+            img.at<Vec3b>(n,m) = Vec3b(colorSum);
         }
 
 //    flip(img, img, 1);

@@ -40,6 +40,8 @@
 		<Unit filename="src/Quartics.h" />
 		<Unit filename="src/Tetrahedron.cpp" />
 		<Unit filename="src/Tetrahedron.h" />
+		<Unit filename="src/cameraLightGenerator.cpp" />
+		<Unit filename="src/cameraLightGenerator.h" />
 		<Unit filename="src/colorDet.cpp" />
 		<Unit filename="src/colorDet.h" />
 		<Unit filename="src/colorUn.cpp" />

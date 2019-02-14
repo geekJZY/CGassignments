@@ -1,0 +1,122 @@
+# depslib dependency file v1.0
+1524086921 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/cameraLightGenerator.cpp
+	"cameraLightGenerator.h"
+
+1524071820 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/cameraLightGenerator.h
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1524853924 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/colorDet.cpp
+	"colorDet.h"
+
+1524847290 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/colorDet.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"plane.h"
+	"lightSource.h"
+	"definition.h"
+	"Cube.h"
+
+1523290039 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/Quartics.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522525766 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/definition.h
+
+1522505663 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/plane.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522514247 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/lightSource.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1523331239 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/Cube.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1522463581 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/colorUn.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522439239 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/colorUn.cpp
+	"colorUn.h"
+
+1523917379 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/Cube.cpp
+	"Cube.h"
+	"Tetrahedron.h"
+
+1522615834 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/Tetrahedron.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1522514247 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/lightSource.cpp
+	"lightSource.h"
+
+1524533953 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/objectMoving.cpp
+	"objectMoving.h"
+
+1524532647 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/objectMoving.h
+	<cmath>
+	<opencv2/opencv.hpp>
+	"colorDet.h"
+	"Quartics.h"
+
+1524849614 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/plane.cpp
+	"plane.h"
+
+1524084725 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/Quartics.cpp
+	"Quartics.h"
+
+1522615834 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/Tetrahedron.cpp
+	"Tetrahedron.h"
+
+1525101973 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"src/colorUn.h"
+	"src/lightSource.h"
+	"src/Quartics.h"
+	"src/plane.h"
+	"src/Tetrahedron.h"
+	"src/Cube.h"
+	"src/colorDet.h"
+	"src/cameraLightGenerator.h"
+	"src/objectMoving.h"
+	"src/projecting.h"
+
+1525102694 source:/home/jzy/code_OpenCV/CGassignments/Project06_4/src/projecting.cpp
+	"projecting.h"
+
+1525099810 /home/jzy/code_OpenCV/CGassignments/Project06_4/src/projecting.h
+	<cmath>
+	<opencv2/opencv.hpp>
+	"colorDet.h"
+

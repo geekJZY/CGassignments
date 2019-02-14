@@ -79,10 +79,10 @@ vector<Vec4f> Planes::TexColorDeter(Vec3d ph = Vec3d(0,0,0)){
         for(int i = 0; i < 3; i ++){
             texColors[0][i] = texColors[1][i]/5;
             texColors[2][i] = min(texColors[1][i], float(255.0));
-            texColors[2][i] *= 10;
+            texColors[2][i] *= 1;
         }
         texColors[0][3] = 255;
-        texColors[2][3] = 2550;
+        texColors[2][3] = 255;
         return texColors;
     }
 }

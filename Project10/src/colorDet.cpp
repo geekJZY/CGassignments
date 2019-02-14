@@ -127,8 +127,9 @@ Vec4f colorDet::colorReturn(int objFrom, int objInx, Vec3d ph, Vec3d nep, int ti
         if(planes[objInx].texture == TX_TOTAL_RL){
             Vec3d nr, nHE;
             pair<int, Vec3d> rayTracing;
-            Vec3d normVec = planes[objInx].nH_Tex(ph);
+            Vec3d normVec = planes[objInx].nH();
             nr = nep - 2 * normVec.dot(nep) * normVec;
+            //nr = jitter(nr);
             rayTracing = this -> spaceTracer(nr, ph);
             //If rayTracing fail to hit object
 
@@ -280,7 +281,6 @@ Vec4f colorDet::colorReturn(int objFrom, int objInx, Vec3d ph, Vec3d nep, int ti
             b = std::max(((1-cosEH)-0.92)/0.08,0.0);
 
             vector<Vec4f> textureClr = spheres[sphereInx].TexColorDeter(ph);
-
             for(int i = 0; i < lighters.size(); i ++){
                 //perform rayTracing to the light and test if the hit point is the same as this point, if not, calculate the color and add it
                 double dis_Hit2Obj;
@@ -374,7 +374,7 @@ Vec4f colorDet::colorReturn(int objFrom, int objInx, Vec3d ph, Vec3d nep, int ti
             vRR = aRR * (-nep) + bRR * normVec;
             vRR = vRR/ norm(vRR);
             //jitter version
-            vRR = this -> jitter(vRR);
+            //vRR = this -> jitter(vRR);
             rayRR = this -> spaceTracer(vRR, ph);
             return 0.9* this -> colorReturn(objInx, rayRR.first, rayRR.second, vRR, tierCnt + 1);
         }

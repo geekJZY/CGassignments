@@ -1,0 +1,113 @@
+# depslib dependency file v1.0
+1524086921 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/cameraLightGenerator.cpp
+	"cameraLightGenerator.h"
+
+1524071820 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/cameraLightGenerator.h
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1522439239 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/colorUn.cpp
+	"colorUn.h"
+
+1522463581 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/colorUn.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522525766 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/definition.h
+
+1523917379 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/Cube.cpp
+	"Cube.h"
+	"Tetrahedron.h"
+
+1523331239 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/Cube.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1523290039 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/Quartics.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1522615834 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/Tetrahedron.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+	"Quartics.h"
+	"colorUn.h"
+
+1522514247 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/lightSource.cpp
+	"lightSource.h"
+
+1522514247 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/lightSource.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1524084725 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/Quartics.cpp
+	"Quartics.h"
+
+1522615834 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/Tetrahedron.cpp
+	"Tetrahedron.h"
+
+1524880293 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/main.cpp
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"src/colorUn.h"
+	"src/lightSource.h"
+	"src/Quartics.h"
+	"src/plane.h"
+	"src/Tetrahedron.h"
+	"src/Cube.h"
+	"src/colorDet.h"
+	"src/cameraLightGenerator.h"
+	"src/objectMoving.h"
+
+1522505663 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/plane.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"definition.h"
+
+1524847290 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/colorDet.h
+	<iostream>
+	<stdlib.h>
+	<cmath>
+	<opencv2/opencv.hpp>
+	"Quartics.h"
+	"plane.h"
+	"lightSource.h"
+	"definition.h"
+	"Cube.h"
+
+1524532647 /home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/objectMoving.h
+	<cmath>
+	<opencv2/opencv.hpp>
+	"colorDet.h"
+	"Quartics.h"
+
+1524853924 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/colorDet.cpp
+	"colorDet.h"
+
+1524849614 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/plane.cpp
+	"plane.h"
+
+1524533953 source:/home/jzy/code_OpenCV/CGassignments/Project11_imagePainting/src/objectMoving.cpp
+	"objectMoving.h"
+

@@ -93,7 +93,7 @@
 	"src/Cube.h"
 	"src/colorDet.h"
 
-1523333506 source:/home/jzy/code_OpenCV/CGassignments/Project10/main.cpp
+1524086737 source:/home/jzy/code_OpenCV/CGassignments/Project10/main.cpp
 	<iostream>
 	<stdlib.h>
 	<cmath>
@@ -105,6 +105,7 @@
 	"src/Tetrahedron.h"
 	"src/Cube.h"
 	"src/colorDet.h"
+	"src/cameraLightGenerator.h"
 
 1522463581 /home/jzy/code_OpenCV/CGassignments/Project10/src/colorUn.h
 	<iostream>
@@ -165,7 +166,7 @@
 	"definition.h"
 	"Cube.h"
 
-1523332358 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/colorDet.cpp
+1524084744 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/colorDet.cpp
 	"colorDet.h"
 
 1522439239 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/colorUn.cpp
@@ -174,10 +175,10 @@
 1522514247 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/lightSource.cpp
 	"lightSource.h"
 
-1522626231 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/plane.cpp
+1524085231 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/plane.cpp
 	"plane.h"
 
-1523290119 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Quartics.cpp
+1524084725 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Quartics.cpp
 	"Quartics.h"
 
 1522615834 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Tetrahedron.cpp
@@ -186,4 +187,11 @@
 1523917379 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/Cube.cpp
 	"Cube.h"
 	"Tetrahedron.h"
+
+1524071820 /home/jzy/code_OpenCV/CGassignments/Project10/src/cameraLightGenerator.h
+	<cmath>
+	<opencv2/opencv.hpp>
+
+1524086921 source:/home/jzy/code_OpenCV/CGassignments/Project10/src/cameraLightGenerator.cpp
+	"cameraLightGenerator.h"
 
